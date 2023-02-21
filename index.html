@@ -11,12 +11,16 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 
-<body class="">
+<body class="" style="background-image: url('images/fondo.jpg');
+    background-repeat:no-repeat ;
+    background-attachment: fixed;
+    background-size:cover;">
 
     <div id="root">
 
         <!-- LOGIN -->
-        <section id="login" class="m-0 vh-100 row flex justify-content-center align-items-center" v-if="!loginUser">
+        <section id="login" class="m-0 vh-100 row flex justify-content-center align-items-center" v-if="loginUser"
+            style="opacity: 80%;">
             <div
                 class="container col-md-6 rounded bg-dark text-white flex justify-content-center align-items-center text-center">
                 <div class="row">
@@ -48,7 +52,7 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-primary m-4 p-2" @click="login">Ingresar</button>
+                        <button class="btn btn-light m-4 p-2" @click="login">Ingresar</button>
 
                     </div>
                 </div>
@@ -57,244 +61,235 @@
         <!-- fin login -->
 
         <!-- VISTA DE LOS USUARIOS -->
-
-        <section id="users" v-if="!isUser">
-
-            <button @click="prueba">prueba</button>
+        <section id="users" v-if="isUser" style="opacity: 95%;">
 
             <div class="container">
-                <div class="row ">
-                    <div class="col m-10 text-center">
-                        <h1>MASCOTAS</h1>
+                <div class="row bg-dark text-white mb-1 rounded-bottom">
+                    <div class="col m-5 text-center">
+                        <h1 class="display-1">MASCOTAS</h1>
                     </div>
-
-                </div>
-                <div class="row">
-
-                    <div class="col d-flex flex-row">
-                        <div class="m-2">
-                            <img v-bind:src="currentUser?.picture" alt="" class="rounded-circle">
+                    <div class="row">
+                        <div class="col-sm-8 col-xs-12 d-flex flex-row justify-content-center">
+                            <div class="m-1">
+                                <img v-bind:src="currentUser?.picture" alt="" class="rounded-circle">
+                            </div>
+                            <div class="m-1">
+                                <h4 v-text="currentUser?.name" style="line-height:10px;"></h4>
+                                <h6 v-text="currentUser?.email" style="line-height:10px;"></h6>
+                                <h6 v-text="currentUser?.cell" style="line-height:10px;"></h6>
+                            </div>
                         </div>
-                        <div class="m-2">
-                            <h4 v-text="currentUser?.name" style="line-height:10px;"></h4>
-                            <h6 v-text="currentUser?.email" style="line-height:10px;"></h6>
-                            <h6 v-text="currentUser?.cell" style="line-height:10px;"></h6>
-                        </div>
-                    </div>
 
-                    <div class="col">
-                        <div class="dropdown">
-                            <button class="btn btn-info dropdown-toggle mt-3 float-end" type="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Mi cuenta
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" href="#">Adoptar</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">Dar en adopcion</a>
-                                </li>
-                                <li v-if="userAdmin">
-                                    <a class="dropdown-item" href="#">Administrador</a>
-                                </li>
-                                <li>
-                                    <a @click="logout" class="dropdown-item bg-danger" href="#">Cerrar sesión</a>
-                                </li>
-                            </ul>
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="dropdown">
+                                <button class="btn btn-light dropdown-toggle m-1 float-end" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Mi cuenta
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" href="#" @click="pages(1)">Adoptar</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#" @click="pages(2)">Dar en adopción</a>
+                                    </li>
+                                    <li v-if="userAdmin">
+                                        <a class="dropdown-item" href="#" @click="pages(3)">Administrador</a>
+                                    </li>
+                                    <li>
+                                        <a @click="logout" class="dropdown-item bg-danger" href="#">Cerrar sesión</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- //adopcion -->
-                <div class="row">
 
+                <!-- VISTA DE ADOPCIÓN -->
+                <div class="row bg-light mb-1 rounded" v-if="isAdopt">
                     <div class="col">
-
-
                         <div class="container mt-2">
-                            <div class="row bg-info rounded text-center mb-2">
+                            <div class="row bg-dark text-white rounded text-center mb-2">
                                 <h1>Mascotas que puedes adoptar</h1>
                             </div>
                             <div class="row justify-content-around">
-                                <div class="col-lg-2 col-md-3 col-sm-5 rounded bg-black text-center mb-2 p-1 "
-                                    v-for="pt of pets" v-show="pt.status == false">
+                                <div class="col-lg-2 col-md-3 col-sm-5 rounded text-center mb-2 p-1 " v-for="pt of pets"
+                                    v-show="pt.status == false">
                                     <div class="card w-100 h-100">
                                         <img v-bind:src="pt.img" class="card-img-top" alt="...">
-                                        <div class="card-body d-flex align-items-center flex-column ">
+                                        <div class="card-body d-flex align-items-center flex-column">
 
                                             <h5 class="card-title m-1" style="font-weight: bold;">{{pt.name}}</h5>
-                                            <h6><span class="badge rounded-circle text-bg-dark m-1"> <abbr title="id"
-                                                        style="text-decoration: none;">{{ pt.age }}</abbr>
-                                                </span> meses </h6>
-                                            <span class="badge rounded-pill text-bg-warning text-black  m-1">Raza:
+                                            <h6>
+                                                <span class="badge rounded-circle text-bg-dark m-1 ">
+                                                    <abbr title="id" style="text-decoration: none;">{{ pt.age }}</abbr>
+                                                    <p v-if="pt.age >1">meses </p>
+                                                    <p v-else>mes</p>
+                                                </span>
+                                            </h6>
+                                            <span class="badge bg-warning text-bg-warning text-black  m-1">Raza:
                                                 {{pt.race}}</span>
-                                            <span class="badge rounded-pill text-bg-warning text-black  m-1">Color:
+                                            <span class="badge bg-warning text-bg-warning text-black  m-1">Color:
                                                 {{pt.color}}</span>
-                                            <span class="badge rounded-pill text-bg-warning text-black m-1">Especie:
+                                            <span class="badge bg-warning text-bg-warning text-black m-1">Especie:
                                                 {{pt.specie}}</span>
-                                            <span class="badge rounded-pill text-bg-warning text-black m-1">Genero:
+                                            <span class="badge bg-warning text-bg-warning text-black m-1">Genero:
                                                 {{pt.gender}}</span>
-                                            <span
-                                                class="badge rounded-pill text-bg-warning text-black m-1">{{pt.description}}</span>
-
-                                            <button class="btn btn-primary m-auto"
-                                                @click="adopt(pt.id)">Adoptar</button>
+                                            <span class="badge bg-warning text-bg-warning text-black m-1"
+                                                style="width: 100%; overflow: hidden;white-space: normal">
+                                                {{pt.description}}
+                                            </span>
+                                            <button class="btn btn-dark mt-auto" @click="adopt(pt.id)">Adoptar</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- //Dar en adopcion -->
-                <div class="row d-flex justify-content-between ">
-
-                    <div class="col-12 m-10 text-center">
-                        <h1>Datos de la mascota</h1>
-                    </div>
-
-                    <div class="col-md-3 col-sm-5 d-flex flex-column m-2">
-                        <label for="">Nombre</label>
-                        <input type="text" class="rounded p-2" v-model="name">
-                    </div>
-
-                    <div class="col-md-3 col-sm-5 d-flex flex-column m-2">
-                        <label for="">Raza</label>
-                        <input type="text" class="rounded p-2" v-model="race">
-                    </div>
-
-                    <div class="col-md-3 col-sm-5 d-flex flex-column m-2">
-                        <label for="">Color</label>
-                        <input type="text" class="rounded p-2" v-model="color">
-                    </div>
-
-                    <div class="col-md-3 col-sm-5 d-flex flex-column m-2">
-                        <label for="">Especie o tipo</label>
-                        <select name="" id="" class="rounded p-2" v-model="specie">
-                            <option value="Gato">Gato</option>
-                            <option value="Perro">Perro</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 col-sm-5 d-flex flex-column m-2">
-                        <label for="">Edad</label>
-                        <input type="text" class="rounded p-2" placeholder="Edad en meses" v-model="age">
-                    </div>
-                    <div class="col-md-3 col-sm-5 d-flex flex-column m-2">
-                        <label for="">Genero</label>
-                        <select name="" id="" class="rounded p-2" v-model="gender">
-                            <option value="Macho">Macho</option>
-                            <option value="Hembra">Hembra</option>
-                        </select>
-                    </div>
-
-                    <div class="col-12 m-2">
-                        <label for="">Descripción</label>
-                        <textarea class="col-12 rounded p-2" v-model="description"></textarea>
-                    </div>
-
-                    <div class="col-8 col-md-4 offset-md-4 offset-2 p-2 d-flex justify-content-center" v-if="imageSelect">
-                        <img  v-bind:src="imageSelect.img" v-bind:alt="img.specie" class="rounded" style="width: 80%;"/>
-                    </div>
-
-                    <div class="col-8 col-md-4 offset-md-4 offset-2 p-2 d-flex flex-column">
-                        <button class="rounded p-2" data-bs-toggle="modal" data-bs-target="#petsModal"
-                            class="dropdown-item" href="#">Subir imágen</button>
-                    </div>
-
-                    <div class="col-8 col-md-4 offset-md-4 offset-2 p-2 d-flex flex-column">
-                        <button class="rounded p-2" @click="forAdoption">Guardar</button>
-                    </div>
-
-
-
-
-                </div>
-
-                <!-- ver estado de las mascotas funcion del USERADMIN -->
-                <div class="row justify-content-center align-items-center text-center ">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-dark">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Foto</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Edad</th>
-                                    <th scope="col">Raza</th>
-                                    <th scope="col">Color</th>
-                                    <th scope="col">Especie</th>
-                                    <th scope="col">Genero</th>
-                                    <th scope="col">Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="pt of  pets">
-                                    <td> <img v-bind:src="pt.img" class="rounded-circle"
-                                            style="width:3rem; height:3rem;" alt="...">
-                                    </td>
-                                    <td v-text="pt.name"></td>
-                                    <td v-text="pt.age"></td>
-                                    <td v-text="pt.race"></td>
-                                    <td v-text="pt.color"></td>
-                                    <td v-text="pt.specie"></td>
-                                    <td v-text="pt.gender"></td>
-                                    <td v-if="pt.status == true">adoptado</td>
-                                    <td v-if="pt.status == false">en adopción</td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
 
+                <!-- VISTA DAR EN ADOPCIÓND -->
+                <div class="row bg-light mb-1 rounded" v-if="isForAdoption">
+                    <div class="col">
+                        <div class="container mt-2">
+                            <div class="row bg-dark text-white rounded text-center mb-2">
+                                <h1>Dar en adopción una mascota</h1>
+                            </div>
+                            <div class="row d-flex justify-content-between mt-1">
+                                <div class="col-md-3 col-sm-5 d-flex flex-column m-2">
+                                    <label for="">Nombre</label>
+                                    <input type="text" class="rounded p-2" v-model="name">
+                                </div>
+                                <div class="col-md-3 col-sm-5 d-flex flex-column m-2">
+                                    <label for="">Raza</label>
+                                    <input type="text" class="rounded p-2" v-model="race">
+                                </div>
+                                <div class="col-md-3 col-sm-5 d-flex flex-column m-2">
+                                    <label for="">Color</label>
+                                    <input type="text" class="rounded p-2" v-model="color">
+                                </div>
+                                <div class="col-md-3 col-sm-5 d-flex flex-column m-2">
+                                    <label for="">Especie o tipo</label>
+                                    <select name="" id="" class="rounded p-2" v-model="specie">
+                                        <option value="Gato">Gato</option>
+                                        <option value="Perro">Perro</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 col-sm-5 d-flex flex-column m-2">
+                                    <label for="">Edad</label>
+                                    <input type="number" class="rounded p-2" placeholder="Edad en meses" v-model="age">
+                                    <label v-if="age<0" class="text-danger">Edad debe ser mayor a 0</label>
+                                </div>
+                                <div class="col-md-3 col-sm-5 d-flex flex-column m-2">
+                                    <label for="">Genero</label>
+                                    <select name="" id="" class="rounded p-2" v-model="gender">
+                                        <option value="Macho">Macho</option>
+                                        <option value="Hembra">Hembra</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 m-2">
+                                    <label for="">Descripción</label>
+                                    <textarea class="col-12 rounded p-2" v-model="description"></textarea>
+                                </div>
+                                <div class="col-8 col-md-4 offset-md-4 offset-2 p-2 d-flex justify-content-center"
+                                    v-if="imageSelect">
+                                    <img v-bind:src="imageSelect.img" v-bind:alt="img.specie" class="rounded"
+                                        style="width: 80%;" />
+                                </div>
+                                <div class="col-8 col-md-4 offset-md-4 offset-2 p-2 d-flex flex-column">
+                                    <button class="btn btn-dark rounded p-2" data-bs-toggle="modal"
+                                        data-bs-target="#petsModal" class="dropdown-item" href="#">Subir imágen</button>
+                                </div>
+                                <div class="col-8 col-md-4 offset-md-4 offset-2 p-2 d-flex flex-column">
+                                    <button class="btn btn-dark rounded p-2" @click="forAdoption">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-
-
-
-
+                <!--VER LISTADO DE LAS MASCOTAS, FUNCION UNICA PARA USUARIOS ADMINISTRADORES -->
+                <div class="row bg-light mb-1 rounded" v-if="isviewPets">
+                    <div class="col">
+                        <div class="container mt-2">
+                            <div class="row bg-dark text-white rounded text-center mb-2">
+                                <h1>Listado de las mascotas</h1>
+                            </div>
+                            <div class="row justify-content-center align-items-center text-center">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-dark">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Foto</th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Edad</th>
+                                                <th scope="col">Raza</th>
+                                                <th scope="col">Color</th>
+                                                <th scope="col">Especie</th>
+                                                <th scope="col">Genero</th>
+                                                <th scope="col">Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="pt of  pets">
+                                                <td> <img v-bind:src="pt.img" class="rounded-circle"
+                                                        style="width:3rem; height:3rem;" alt="...">
+                                                </td>
+                                                <td v-text="pt.name"></td>
+                                                <td v-text="pt.age"></td>
+                                                <td v-text="pt.race"></td>
+                                                <td v-text="pt.color"></td>
+                                                <td v-text="pt.specie"></td>
+                                                <td v-text="pt.gender"></td>
+                                                <td v-if="pt.status == true">adoptado</td>
+                                                <td v-if="pt.status == false">en adopción</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </section>
-
         <!-- fin vista usuarios -->
 
 
-        <!-- modal PETS -->
+        <!-- MODAL SELECCIONAR PERFIL DE LA MASCOTA -->
         <div class="modal fade" id="petsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered ">
-                <div class="modal-content" style="background-color: #3C3E44;">
+                <div class="modal-content bg-dark">
                     <div class="modal-header">
                         <h1 class="modal-title text-white text-center" id="exampleModalLabel">
                             Elije perfil de la mascota
                         </h1>
-                        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     </div>
                     <div class="modal-body">
 
                         <div class="container">
                             <div class="row">
                                 <div v-if="specie != ''" class="col-6 d-flex flex-column align-items-center  p-1"
-                                    v-for="img of images" >
-                                    <button type="button" v-show="img.specie == specie" v-bind:id="img.img" @click="selectPerfil(img)" class="btn btn-default"><img  v-bind:src="img.img" v-bind:alt="img.specie" class="rounded" style="width: 100%;"/></button>
+                                    v-for="img of images">
+                                    <button type="button" v-show="img.specie == specie" v-bind:id="img.img"
+                                        @click="selectPerfil(img)" class="btn btn-default"><img v-bind:src="img.img"
+                                            v-bind:alt="img.specie" class="rounded" style="width: 100%;" /></button>
                                 </div>
-                                <div v-else><h2>Selecciona la especie o tipo</h2></div>
+                                <div v-else>
+                                    <h2 class="text-white">Selecciona la especie o tipo</h2>
+                                </div>
                                 <div class="col d-flex flex-column align-items-center  p-1">
-                                    <button class="btn btn-info" data-bs-dismiss="modal" aria-label="Close" >Cerrar</button>
+                                    <button class="btn btn-light" data-bs-dismiss="modal"
+                                        aria-label="Close">Aceptar</button>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
         <!-- FIN MODAL PETS -->
-
 
     </div>
 
@@ -303,7 +298,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
     crossorigin="anonymous"></script>
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="main.js"></script>
 
 </html>
