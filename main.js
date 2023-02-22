@@ -44,7 +44,7 @@ createApp({
             description: '',
             auxSelect: '',
             imageSelect: '',
-            allForAdoption:'',
+            allForAdoption: '',
             isAdopt: true,
             isForAdoption: false,
             isviewPets: false
@@ -104,6 +104,7 @@ createApp({
                     }
                     this.loginUser = false;
                     this.isUser = true;
+                    this.isAdopt = true;
                     this.username = '';
                     this.password = '';
                 } else {
@@ -122,6 +123,9 @@ createApp({
             this.userAdmin = false;
             this.loginUser = true;
             this.alert = false;
+            this.isAdopt = false;
+            this.isForAdoption = false;
+            this.isviewPets = false;
         },
 
         pages(page) {
@@ -173,10 +177,10 @@ createApp({
             this.pets?.forEach(pet => {
                 if (pet.status == false) { cont++ };
             });
-            if(cont == 0){
-                this.allForAdoption=true;
-            }else{
-                this.allForAdoption=false;
+            if (cont == 0) {
+                this.allForAdoption = true;
+            } else {
+                this.allForAdoption = false;
             }
         },
 
