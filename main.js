@@ -109,7 +109,6 @@ createApp({
                 } else {
                     this.message = 'Usuario o contraseña incorrecto';
                     this.alert = true;
-                    console.log(this.message);
                 }
             } else {
                 this.message = 'Todos los campos son obligatorios';
@@ -161,7 +160,6 @@ createApp({
                 padding: '3em',
                 color: 'white',
                 background: '#272B33',
-
                 backdrop: `
                   rgba(0,176,200,0.4)
                   left top
@@ -226,7 +224,6 @@ createApp({
                     padding: '3em',
                     color: 'white',
                     background: '#272B33',
-
                     backdrop: `
                       rgba(0,176,200,0.4)
                       left top
@@ -250,7 +247,6 @@ createApp({
                     padding: '3em',
                     color: 'white',
                     background: '#272B33',
-
                     backdrop: `
                       rgba(0,176,200,0.4)
                       left top
