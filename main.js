@@ -244,7 +244,6 @@ createApp({
                 this.description = '';
 
             } else {
-                console.log('Todos los campos son obligatorios');
                 Swal.fire({
                     title: `Todos los campos son obligatorios`,
                     width: 600,
