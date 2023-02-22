@@ -114,10 +114,10 @@
                                 <h1>Mascotas que puedes adoptar</h1>
                             </div>
                             <div class="row justify-content-around">
-                                <div class="col-lg-2 col-md-3 col-sm-5 rounded text-center mb-2 p-1 " v-for="pt of pets"
+                                <div class="col-lg-2 col-md-3 col-sm-5 rounded text-center mb-2 p-1" v-for="pt of pets"
                                     v-show="pt.status == false">
                                     <div class="card w-100 h-100">
-                                        <img v-bind:src="pt.img" class="card-img-top" alt="...">
+                                        <img v-bind:src="pt.img" class="card-img-top" v-bind:alt="pt.race">
                                         <div class="card-body d-flex align-items-center flex-column">
 
                                             <h5 class="card-title m-1" style="font-weight: bold;">{{pt.name}}</h5>
@@ -144,12 +144,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row text-center mb-2 p-1" v-if="allForAdoption">
+                                    <h1>Todas las mascotas han encontrado un hogar</h1>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- VISTA DAR EN ADOPCIÓND -->
+                <!-- VISTA DAR EN ADOPCIÓN -->
                 <div class="row bg-light mb-1 rounded" v-if="isForAdoption">
                     <div class="col">
                         <div class="container mt-2">

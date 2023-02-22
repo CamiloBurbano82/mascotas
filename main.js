@@ -44,6 +44,7 @@ createApp({
             description: '',
             auxSelect: '',
             imageSelect: '',
+            allForAdoption:'',
             isAdopt: true,
             isForAdoption: false,
             isviewPets: false
@@ -86,6 +87,7 @@ createApp({
                 localStorage.setItem('pets', localStorage.getItem('pets'))
                 this.pets = JSON.parse(localStorage.getItem('pets'));
             }
+            this.allAdopt();
             console.log('pets', this.pets);
         },
 
@@ -151,7 +153,7 @@ createApp({
             })
             localStorage.setItem('pets', JSON.stringify(this.pets));
             this.pets = JSON.parse(localStorage.getItem('pets'));
-
+            this.allAdopt();
             Swal.fire({
                 title: `Has adoptado a un amigo!!!`,
                 text: '¿Que tal si adoptas otro amigo?',
@@ -166,6 +168,18 @@ createApp({
                   no-repeat
                 `
             })
+        },
+
+        allAdopt() {
+            let cont = 0;
+            this.pets?.forEach(pet => {
+                if (pet.status == false) { cont++ };
+            });
+            if(cont == 0){
+                this.allForAdoption=true;
+            }else{
+                this.allForAdoption=false;
+            }
         },
 
         selectPerfil(img) {
@@ -205,6 +219,7 @@ createApp({
                 });
                 localStorage.setItem('pets', JSON.stringify(this.pets));
                 this.pets = JSON.parse(localStorage.getItem('pets'));
+                this.allAdopt();
                 Swal.fire({
                     title: `Mascota dada en adopción`,
                     width: 600,
